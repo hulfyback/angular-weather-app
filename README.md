@@ -58,3 +58,22 @@ Für die Umsetzung bedarf es keiner eigenständigen Dokumentation. Jedoch soll d
 # Fragen & Probleme
 
 Sollten sich Fragen ergeben oder Probleme auftreten, so versuchen Sie diese bestmöglich anzunehmen/lösen und zu dokumentieren, welche Entscheidungen und Voraussetzungen Sie getroffen haben.
+
+# Interne Notiz
+*kann ignoriert werden*
+
+## Build build
+````shell
+docker build -t noderunner .
+````
+
+## Run app in container
+````shell
+docker run -v .:/app -p 4200:4200 -it noderunner bash
+````
+
+### in container start
+````shell
+npm install
+ng serve
+````
