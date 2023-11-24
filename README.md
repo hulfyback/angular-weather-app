@@ -16,7 +16,7 @@ Der API Key wird per E-Mail versendet.
 
 # Fachliche Anforderungen
 1. Der Anwender soll einen Ort eingeben können
-2. Der Anwender soll ein konkretes Datum eingeben können
+2. Der Anwender soll ein konkretes Datum im Format `dd.MM.yyyy` eingeben können
 3. Der Anwender soll die Wetterdaten für "Heute", für "Morgen" und für "Heute + 2 Tage" angezeigt bekommen
 
 ## Wetterdaten
