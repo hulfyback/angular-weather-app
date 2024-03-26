@@ -1,0 +1,48 @@
+<div class="container">
+  <label for="cityField">City:</label>
+  <input type="text" class="form-control" id="cityField"  [(ngModel)]="city">
+  <label for="apiKeyField">API-Key:</label>
+  <input type="text" class="form-control" id="apiKeyField" [(ngModel)]="apiKey">
+  <button type="submit" class="btn btn-primary" (click)="getForecast(city, apiKey)" style="margin: 20px 0 20px 0;">Get Forecast</button>
+  <app-location
+    [city]="(forecast | async)?.location.name"
+    [region]="(forecast | async)?.location.region"
+    [country]="(forecast | async)?.location.country"
+    [timeZone]="(forecast | async)?.location.tz_id"
+    [currentTemp]="(forecast | async)?.current.temp_c"
+    [windDirection]="(forecast | async)?.current.wind_dir"
+  />
+    <ng-container *ngIf="forecast | async as data">
+      <div class="row justify-content-center">
+        <ng-container *ngFor="let day of data.forecast.forecastday; let i = index">
+          <div class="col-3" style="margin: 10px">
+            <h2 style="text-align: center;">{{ i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : 'Day After Tomorrow' }}</h2>
+            <div style="border: 1px solid; padding: 10px">
+              <app-daily-weather
+                [tempMorning]="getAvgValue(day.hour, 'temp_c', 6, 11)"
+                [perceivedTempMorning]="getAvgValue(day.hour, 'feelslike_c', 6, 11)" 
+                [windMorning]="getAvgValue(day.hour, 'wind_kph', 6, 11)"
+                [chanceOfRainMorning]="getAvgValue(day.hour, 'chance_of_rain', 6, 11)"
+                [tempAfternoon]="getAvgValue(day.hour, 'temp_c', 12, 17)"
+                [perceivedTempAfternoon]="getAvgValue(day.hour, 'feelslike_c', 12, 17)" 
+                [windAfternoon]="getAvgValue(day.hour, 'wind_kph', 12, 17)"
+                [chanceOfRainAfternoon]="getAvgValue(day.hour, 'chance_of_rain', 12, 17)"
+                [tempEvening]="getAvgValue(day.hour, 'temp_c', 18, 21)"
+                [perceivedTempEvening]="getAvgValue(day.hour, 'feelslike_c', 18, 21)"
+                [windEvening]="getAvgValue(day.hour, 'wind_kph', 18, 21)" 
+                [chanceOfRainEvening]="getAvgValue(day.hour, 'chance_of_rain', 18, 21)"
+                [tempNight]="i === 0 ? getAvgValue(data.forecast.forecastday[i].hour, 'temp_c', 0, 5)
+                  : (getAvgValue(data.forecast.forecastday[i].hour, 'temp_c', 0, 5) + getAvgValue(data.forecast.forecastday[i-1].hour, 'temp_c', 22, 23)) / 2 "
+                [perceivedTempNight]="i === 0 ? getAvgValue(data.forecast.forecastday[i].hour, 'feelslike_c', 0, 5)
+                  : (getAvgValue(data.forecast.forecastday[i].hour, 'feelslike_c', 0, 5) + getAvgValue(data.forecast.forecastday[i-1].hour, 'feelslike_c', 22, 23)) / 2 "
+                [windNight]="i === 0 ? getAvgValue(data.forecast.forecastday[i].hour, 'wind_kph', 0, 5)
+                  : (getAvgValue(data.forecast.forecastday[i].hour, 'wind_kph', 0, 5) + getAvgValue(data.forecast.forecastday[i-1].hour, 'wind_kph', 22, 23)) / 2 "
+                [chanceOfRainNight]="i === 0 ? getAvgValue(data.forecast.forecastday[i].hour, 'chance_of_rain', 0, 5)
+                  : (getAvgValue(data.forecast.forecastday[i].hour, 'chance_of_rain', 0, 5) + getAvgValue(data.forecast.forecastday[i-1].hour, 'chance_of_rain', 22, 23)) / 2 "
+              />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+</div>
